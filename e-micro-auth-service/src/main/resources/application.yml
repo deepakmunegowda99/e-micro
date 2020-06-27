@@ -1,0 +1,49 @@
+server:
+  port: 8763
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    hostname: localhost
+
+## Spring DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
+spring:
+  application:
+    name: e-micro-auth-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/music_player?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&auto-ddl=create-drop
+    username: root
+    password: javadog12345
+
+  ## Hibernate Properties
+  # The SQL dialect makes Hibernate generate better SQL for the chosen database
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+# spring.jpa.hibernate.ddl-auto = create
+
+## Hibernate Logging
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+
+##enable hystrix dashboard
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream

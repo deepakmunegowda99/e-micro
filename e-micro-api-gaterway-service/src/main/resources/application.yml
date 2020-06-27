@@ -1,0 +1,43 @@
+zuul:
+  ignored-services: "*"
+  routes:
+    e-micro-auth-service:
+      path: /auth-service/**
+      serviceId: e-micro-auth-service
+      strip-prefix: false
+      sensitive-headers: Cookie,Set-Cookie
+    e-micro-product-service:
+      path: /product-service/**
+      serviceId: e-micro-product-service
+
+server:
+  port: 8762
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    hostname: localhost
+
+## Spring DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
+spring:
+  application:
+    name: e-micro-api-gateway-service
+
+##enable hystrix dashboard
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
